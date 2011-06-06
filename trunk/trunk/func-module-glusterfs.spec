@@ -25,12 +25,12 @@ administrators running GlusterFS storage clusters.
 %build
 
 %install
-rm -rf %{buildroot}
-mkdir -p %{buildroot}%{python_sitelib}
+%{__rm} -rf %{buildroot}
+%{__mkdir_p} %{buildroot}%{python_sitelib}
 %{__install} -m0644 gluster.py %{buildroot}%{python_sitelib}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 
 %files
