@@ -7,6 +7,7 @@ RPMBUILD = rpmbuild --define "_topdir %(pwd)/rpm-build" \
         --define "_sourcedir  %{_topdir}"
 VERSION := $(shell awk '/%changelog/ {getline; split($$NF,a,"-"); print a[1]} ' *.spec)
 SOURCE = ${PACKAGE}-${VERSION}.tar.gz
+PYTHON_SITELIB := $(shell python -c 'from distutils.sysconfig import get_python_lib; print get_python_lib()')
 
 all: rpms
 
@@ -16,7 +17,10 @@ clean:
 	-rm -rf rpm-build/ rpms/
 
 sdist:
-	tar -czf ${SOURCE} modules
+	tar -czf ${SOURCE} modules/
+
+install:
+	install -m0644 modules/gluster.py ${PYTHON_SITELIB}/func/minion/modules/
 
 prep_rpmbuild: sdist
 	mkdir -p rpm-build
